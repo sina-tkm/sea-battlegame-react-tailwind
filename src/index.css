@@ -1,0 +1,65 @@
+.board-one{
+  background-color: orange  ;
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+}
+.board-black{
+  border-radius: 50%;
+  display: flex ;
+  justify-content: center ;
+  align-items: center;
+
+}
+
+.boardtwo-one{
+  background-color: blue  ;
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+}
+.board_one-grid{
+ 
+  display: grid;
+  width: 40%;
+  margin: auto;
+  inset: 0;
+  grid-template-columns: repeat(10,1fr);
+  grid-template-rows: repeat(10,1fr);
+  gap: 10px;
+  justify-content: center;
+}
+.app-class{
+  margin-top: 30px;
+  display: flex; 
+  flex-direction: column ;
+  row-gap: 50px;
+}
+.number-class{
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  
+}
+.word-class{
+  position: absolute;
+  right: 320px;
+}
+.board-two{
+  background-color: green  ;
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+}
+.board-three{
+  background-color: red  ;
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+}
+.black-fire{
+  background-color: black;
+}
+.miss-fire{
+  background-color: aqua;
+}
