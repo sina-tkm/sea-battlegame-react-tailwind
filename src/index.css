@@ -29,6 +29,17 @@
   gap: 10px;
   justify-content: center;
 }
+.reset-button{
+  width: 110px;
+  height: 50px;
+}
+.report-winner{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .app-class{
   margin-top: 30px;
   display: flex; 
@@ -46,13 +57,14 @@
   right: 320px;
 }
 .board-two{
-  background-color: green  ;
+  background-color: pink;
+  content: "💣";
   border: 1px solid black;
   width: 30px;
   height: 30px;
 }
 .board-three{
-  background-color: red  ;
+  background-color: pink ;
   border: 1px solid black;
   width: 30px;
   height: 30px;
@@ -62,4 +74,25 @@
 }
 .miss-fire{
   background-color: aqua;
+}
+.whole-chart{
+  display: flex;
+
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+flex-direction: column;
+}
+.reading-help{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.board-game{
+  border: 1px solid black ;
+   box-shadow: 5px 5px 30px rgba(0,0,0,0.2), -5px -5px 30px rgba(0,0,0,0.1);
+   width: fit-content;
+   margin: auto;
+   padding: 10px;
 }
