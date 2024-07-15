@@ -90,9 +90,35 @@ flex-direction: column;
   align-items: center;
 }
 .board-game{
-  border: 1px solid black ;
+  border: 1px solid white;
    box-shadow: 5px 5px 30px rgba(0,0,0,0.2), -5px -5px 30px rgba(0,0,0,0.1);
    width: fit-content;
    margin: auto;
    padding: 10px;
+}
+.hint-game{
+  font-size: 18px;
+}
+.turn-player{
+  display: flex;
+
+  flex-direction: column;
+}
+.ship-picture{
+  position: absolute;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+  z-index: -1000;
+  top: 0
+  ;
+}
+.link-style{
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+
+}
+.banner-style{
+color: white;
 }

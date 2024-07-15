@@ -1,67 +1,33 @@
-import { arrayOfObjects } from "../jsFoldre/constant.js";
+import { Link } from "react-router-dom";
 
-function Board({
-  selectIdOne,
-  setSelectIdOne,
-  handleShip,
-  shipPlayerOne,
-  handleChange,
-  selectIdTwo,
-  shipPlayerTwo,
- 
-}) {
-
-
-  const handleClick = (id) => {
-    
-     
-        setSelectIdOne((prevState) => [...prevState, id]);
-    
-      
-      
-      
-        
-      
-
-    
-  };
-
-  const updateSelectId = selectIdTwo.slice(4);
-  const updateshipPlace = shipPlayerTwo.slice(4);
-
+function Board({ playerBoardOne, onClick, shipPlayerTwo, setPosition,shipPlayerOne }) {
   return (
     <div className='whole-chart'>
-      <h1>player1</h1>
+      {shipPlayerTwo.length > 0 ? (
+        <h1 className='hint-game'>player1:choose your shipPlacement</h1>
+      ) : (
+        <h1 className='hint-game'>player1</h1>
+      )}
       <div className='board_one-grid'>
-        {arrayOfObjects.map((item) => {
-          const hitFire =
-            selectIdTwo.includes(item.id) && updateshipPlace.includes(item.id);
-
-          const bothInclude =
-            shipPlayerOne.includes(item.id) && updateSelectId.includes(item.id);
-          const missFire = updateSelectId.includes(item.id);
+        {playerBoardOne.map((cell, index) => {
           return (
             <div
-              key={item.id}
+          
+              key={index}
               onClick={() => {
-                handleClick(item.id);
-                handleShip(item.id);
-                handleChange();
+                onClick(index);
+                setPosition();
               }}
-              className={`${
-                selectIdOne.includes(item.id) ? "board-two" : "board-one"
-              } ${
-                shipPlayerOne.includes(item.id) ? "board-black" : "board-one"
-              }  ${bothInclude ? "black-fire" : "board-one"} `}
+              className='board-one'
             >
-              <span>{shipPlayerOne.includes(item.id) ? "⛴️" : null}</span>
-              <span className='number-class'>{missFire ? "☄️" : null}</span>
-              <span className='number-class'>{hitFire ? "🧨" : ""}</span>
+              {shipPlayerTwo.length > 0 && cell.ship ? "S" : ""}{" "}
             </div>
           );
         })}
       </div>
-      {selectIdTwo.includes(shipPlayerOne) ? <span>hit</span> : null}
+      <button>
+      {shipPlayerOne.length <= 0 ? <Link to={"/place/one"}>change Player</Link> :  <div >change Player</div> }
+        </button>
     </div>
   );
 }

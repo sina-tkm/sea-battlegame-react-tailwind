@@ -1,152 +1,218 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Board from "./components/BoardOne";
 import BoardTwo from "./components/BoardTwo";
 import "./index.css";
+import { arrayOfObjects, arrayOfObjectsPlus } from "./jsFoldre/constant";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import PlaceLayout from "./components/PlaceLayout";
+import FightLayout from "./components/FightLayout";
+import FightBoardTwo from "./components/FightBoardTwo";
+import FightBoardOne from "./components/FightBoardOne";
+import ship from "../public/ship.jpg";
+
+const SHIPS = [
+  { size: 2, name: "support" },
+  { size: 3, name: "Destroyer" },
+  { size: 4, name: "Battleship" },
+  { size: 5, name: "Carrier" },
+];
 
 function App() {
-  const [position, setPosition] = useState(false);
-  const [players, setPlayers] = useState("player1");  
-  // const [clickOne,setClickOne] =useState(false)
-  // const [clickTwo,setClickTwo] =useState(false)
+  const [playerBoardOne, setPlayerBoardOne] = useState([]);
+  const [playerBoardTwo, setPlayerBoardTwo] = useState([]);
+  const [shipPlayerOne, setShipPlayerOne] = useState([...SHIPS]);
+  const [shipPlayerTwo, setShipPlayerTwo] = useState([...SHIPS]);
+  const [orientation, setOrientation] = useState("horizontal"); // State to track orientation
+  const [ShowChart, setShowChart] = useState(false);
 
-  const [shipPlayerOne, setShipPlayerOne] = useState([]);
-  const [shipPlayerTwo, setShipPlayerTwo] = useState([]);
-  const [selectIdTwo, setSelectIdTwo] = useState([]);
-  const [selectIdOne, setSelectIdOne] = useState([]);
+  useEffect(() => {
+    if (shipPlayerOne.length <= 0) {
+      setShowChart(true);
+    }
+    if (shipPlayerTwo.length <= 0) {
+      setShowChart(false);
+    }
+  }, [shipPlayerOne, shipPlayerTwo]);
 
-  const winneOner = shipPlayerTwo.every((ship) => selectIdOne.includes(ship));
-  const winnerTow = shipPlayerOne.every((ship) => selectIdTwo.includes(ship));
-  const handleShip = (ship) => {
-    if (shipPlayerOne.length <= 3 && players === "player1") {
-      setShipPlayerOne((prev) => {
-        if (prev.includes(ship)) {
-          alert("duplicate item");
-          return prev;
-        } else{
-          return [...prev, ship];
+  const handlePosition = () => {
+    if (shipPlayerTwo.length <= 0) {
+      setShowChart(!ShowChart);
+    }
+  };
+
+  useEffect(() => {
+    setPlayerBoardOne(initializeBoard([...arrayOfObjects]));
+    setPlayerBoardTwo(initializeBoard([...arrayOfObjectsPlus]));
+  }, []);
+
+  const initializeBoard = (board) => {
+    return board.map((cell) => ({
+      ...cell,
+      ship: null,
+      clicked: false,
+      hit: false,
+    }));
+  };
+
+  const handleCellClick = (index) => {
+    const newBoardOne = [...playerBoardOne];
+    const cellOne = newBoardOne[index];
+
+    if (shipPlayerOne.length > 0) {
+      const shipOne = shipPlayerOne[0];
+      if (canPlaceShip(newBoardOne, shipOne.size, cellOne.id, orientation)) {
+        placeShip(
+          newBoardOne,
+          shipOne.size,
+          cellOne.id,
+          orientation,
+          shipOne.name
+        );
+        setShipPlayerOne(shipPlayerOne.slice(1));
+        setPlayerBoardOne(newBoardOne);
+      }
+    }
+  };
+
+  const handleCellClickTwo = (index) => {
+    const newBoardTwo = [...playerBoardTwo];
+    const cellTwo = newBoardTwo[index];
+
+    if (shipPlayerTwo.length > 0) {
+      const shipTwo = shipPlayerTwo[0];
+
+      if (canPlaceShip(newBoardTwo, shipTwo.size, cellTwo.id, orientation)) {
+        placeShip(
+          newBoardTwo,
+          shipTwo.size,
+          cellTwo.id,
+          orientation,
+          shipTwo.name
+        );
+        setShipPlayerTwo(shipPlayerTwo.slice(1));
+        setPlayerBoardTwo(newBoardTwo);
+      }
+    }
+  };
+
+  const canPlaceShip = (board, shipSize, startId, orientation) => {
+    const startIdx = board.findIndex((cell) => cell.id === startId);
+    const rowSize = Math.sqrt(board.length);
+
+    if (orientation === "horizontal") {
+      if ((startIdx % rowSize) + shipSize > rowSize) {
+        return false;
+      }
+
+      for (let i = 0; i < shipSize; i++) {
+        const cell = board[startIdx + i];
+        if (cell.ship !== null) {
+          return false;
         }
-      
-      });
-      
-    }
-    if (shipPlayerOne.length === 3) {
-    
-      setPlayers("player2");
-      setPosition(true);
-      alert("switch player");
-     
-    }
+      }
+    } else if (orientation === "vertical") {
+      if (startIdx + shipSize * rowSize > board.length) {
+        return false;
+      }
 
-  };
-
-  const hanldeShipTwo = (ship) => {
-    if (shipPlayerTwo.length <= 3 && players === "player2") {
-      setShipPlayerTwo((prev) => {
-        if (prev.includes(ship)) {
-          alert("duplicate item");
-          return prev;
-        } else {
-          return [...prev, ship];
+      for (let i = 0; i < shipSize; i++) {
+        const cell = board[startIdx + i * rowSize];
+        if (cell.ship !== null) {
+          return false;
         }
-      });
+      }
     }
-    if (shipPlayerTwo.length === 3) {
-    
-      setPlayers("player1");
-      setPosition(false);
-      alert("lets fight");
 
-     
+    return true;
+  };
+
+  const placeShip = (board, shipSize, startId, orientation, shipName) => {
+    const startIdx = board.findIndex((cell) => cell.id === startId);
+    const rowSize = Math.sqrt(board.length);
+    if (orientation === "horizontal") {
+      for (let i = 0; i < shipSize; i++) {
+        board[startIdx + i].ship = shipName;
+      }
+    } else if (orientation === "vertical") {
+      for (let i = 0; i < shipSize; i++) {
+        board[startIdx + i * rowSize].ship = shipName;
+      }
     }
   };
- 
-  const handleChange = () => {
-    if (shipPlayerOne.length >= 3 || shipPlayerTwo.length >= 3) {
-      setTimeout(() => {
-        setPosition(!position);
-      }, 1800);
-    }
-  };
-  const handleChangeTwo = () => {
-    if (shipPlayerTwo.length >= 3) {
-  
-      setTimeout(() => {
-        setPosition(!position);
-      }, 1800);
-    }
-  };
-  const handleReset = () => {
-    setSelectIdOne([]);
-    setSelectIdTwo([]);
-    setPlayers("player1");
-    setShipPlayerOne([]);
-    setShipPlayerTwo([]);
-    setPosition(false);
+
+  const toggleOrientation = () => {
+    setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
   };
 
   return (
-    <div className=' app-class'>
-      <div className='reading-help'>
-        {shipPlayerOne.length <= 3 && !position ? (
-          <div>
-            <h1>select player1 shipplacement</h1>
-          </div>
-        ) : (
-          ""
-        )}
-        {shipPlayerTwo.length <= 3 && position ? (
-          <div>
-            <h1>select player2 shipplacement</h1>
-          </div>
-        ) : (
-          ""
-        )}
+    <div className='app-class'>
+      <div>
+        <h1 className='banner-style'>Sea Battle</h1>
+        <img src={ship} alt='ship' className='ship-picture' />
       </div>
-      <div></div>
       <div className='board-game'>
-        {!position ? (
-          <Board
-         
-            shipPlayerTwo={shipPlayerTwo}
-            selectIdTwo={selectIdTwo}
-            selectIdOne={selectIdOne}
-            setSelectIdOne={setSelectIdOne}
-            players={players}
-            handleShip={handleShip}
-            shipPlayerOne={shipPlayerOne}
-            handleChange={handleChange}
-          />
-        ) : (
-          <BoardTwo
-            shipPlayerOne={shipPlayerOne}
-            selectIdOne={selectIdOne}
-            selectIdTwo={selectIdTwo}
-            setSelectIdTwo={setSelectIdTwo}
-            players={players}
-            hanldeShipTwo={hanldeShipTwo}
-            shipPlayerTwo={shipPlayerTwo}
-            handleChangeTwo={handleChangeTwo}
-          />
-        )}
-      </div>
-      <div className='report-winner'>
-        <h1>{winneOner && selectIdOne.length > 4 ? "player1 : winner" : ""}</h1>
-        <h1>{winnerTow && selectIdTwo.length > 4 ? "player2 : winner" : ""}</h1>
-        {winneOner && selectIdOne.length > 4 ? (
-          <button className='reset-button' onClick={() => handleReset()}>
-            {" "}
-            play again{" "}
-          </button>
-        ) : (
-          ""
-        )}
-        {winnerTow && selectIdTwo.length > 4 ? (
-          <button className='reset-button' onClick={() => handleReset()}>
-            play again
-          </button>
-        ) : (
-          ""
-        )}
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route
+            path='place'
+            element={
+              <PlaceLayout
+                toggleOrientation={toggleOrientation}
+                orientation={orientation}
+              />
+            }
+          >
+            <Route
+              index
+              element={
+                <Board
+                  onClick={(index) => handleCellClick(index)}
+                  playerBoardOne={playerBoardOne}
+                  shipPlayerOne={shipPlayerOne}
+                  shipPlayerTwo={shipPlayerTwo}
+                  setPosition={handlePosition}
+                />
+              }
+            />
+            <Route
+              path='one'
+              element={
+                <BoardTwo
+                  onClick={(index) => handleCellClickTwo(index)}
+                  playerBoardTwo={playerBoardTwo}
+                  shipPlayerTwo={shipPlayerTwo}
+                  setPosition={handlePosition}
+                />
+              }
+            />
+          </Route>
+          <Route path='fight' element={<FightLayout />}>
+            <Route
+              index
+              element={
+                <FightBoardTwo
+                  onClick={(index) => handleCellClickTwo(index)}
+                  playerBoardTwo={playerBoardTwo}
+                  shipPlayerTwo={shipPlayerTwo}
+                  setPosition={handlePosition}
+                />
+              }
+            />
+            <Route
+              path='fightone'
+              element={
+                <FightBoardOne
+                  onClick={(index) => handleCellClick(index)}
+                  playerBoardOne={playerBoardOne}
+                  shipPlayerOne={shipPlayerOne}
+                  shipPlayerTwo={shipPlayerTwo}
+                  setPosition={handlePosition}
+                />
+              }
+            />
+          </Route>
+        </Routes>
       </div>
     </div>
   );
