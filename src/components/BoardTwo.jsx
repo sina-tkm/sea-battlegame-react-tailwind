@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, setPosition }) {
+function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, hadnleTrue}) {
   return (
     <div className='whole-chart'>
       {shipPlayerTwo.length > 0 ? (
@@ -18,7 +18,7 @@ function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, setPosition }) {
               key={index}
               onClick={() => {
                 onClick(index);
-                setPosition();
+                
               }}
               className='board-one'
             >
@@ -29,7 +29,7 @@ function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, setPosition }) {
       </div>
       <button>
         {shipPlayerTwo.length <= 0 ? (
-          <Link to={"/fight"}> Lets go For fight</Link>
+          <Link to={'/fight'} onClick={hadnleTrue}> Lets go For fight</Link>
         ) : (
           <div to={"/place"}>change Player</div>
         )}

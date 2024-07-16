@@ -8,6 +8,7 @@ function Home() {
           play
         
     </Link>
+    
     </div>
   )
 }
