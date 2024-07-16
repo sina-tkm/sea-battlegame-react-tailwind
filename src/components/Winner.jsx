@@ -1,9 +1,9 @@
 
-function Winner({resetGame}) {
+function Winner() {
   return (
     <div>
         <h1>winner</h1>
-        <button onClick={resetGame}>Reset Game</button>
+        
     </div>
   )
 }

@@ -1,41 +1,9 @@
-import FightBoardOne from "./FightBoardOne";
-import FightBoardTwo from "./FightBoardTwo";
+import { Outlet } from "react-router-dom";
 
-function FightLayout({
-  changeplayer,
-  setPlayerBoardOne,
-  setPlayerBoardTwo,
-  playerBoardOne,
-  playerBoardTwo,
-  shipPlayerOne,
-  shipPlayerTwo,
-  handleChange,
-  handleCellClickTwo,
-  handleCellClick,
-  handleSwitch,
-}) {
+function FightLayout() {
   return (
     <div>
-      {" "}
-      {!changeplayer && (
-        <FightBoardTwo
-          onClick={(index) => handleCellClickTwo(index)}
-          setPlayerBoardTwo={setPlayerBoardTwo}
-          playerBoardTwo={playerBoardTwo}
-          shipPlayerTwo={shipPlayerTwo}
-          handleChange={handleChange}
-        />
-      )}
-      
-       {changeplayer &&  <FightBoardOne
-          onClick={(index) => handleCellClick(index)}
-          setPlayerBoardOne={setPlayerBoardOne}
-          playerBoardOne={playerBoardOne}
-          shipPlayerOne={shipPlayerOne}
-          shipPlayerTwo={shipPlayerTwo}
-          handleSwitch={handleSwitch}
-        />}
-      
+      <Outlet />
     </div>
   );
 }

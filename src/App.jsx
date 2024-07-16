@@ -10,6 +10,8 @@ import PlaceLayout from "./components/PlaceLayout";
 import ship from "../public/ship.jpg";
 import Winner from "./components/Winner";
 import FightLayout from "./components/FightLayout";
+import FightBoardTwo from "./components/FightBoardTwo";
+import FightBoardOne from "./components/FightBoardOne";
 
 const SHIPS = [
   { size: 2, name: "support" },
@@ -24,16 +26,6 @@ function App() {
   const [shipPlayerOne, setShipPlayerOne] = useState([...SHIPS]);
   const [shipPlayerTwo, setShipPlayerTwo] = useState([...SHIPS]);
   const [orientation, setOrientation] = useState("horizontal"); // State to track orientation
-  const [changeplayer, setChangePlayer] = useState(null);
-  const handleChange = () => {
-    setChangePlayer(true);
-  };
-  const handleSwitch = () => {
-    setChangePlayer(false);
-  };
-  const handleTrue = () => {
-    setChangePlayer(true);
-  };
 
   useEffect(() => {
     setPlayerBoardOne(initializeBoard([...arrayOfObjects]));
@@ -176,23 +168,35 @@ function App() {
                   onClick={(index) => handleCellClickTwo(index)}
                   playerBoardTwo={playerBoardTwo}
                   shipPlayerTwo={shipPlayerTwo}
-                  handleTrue={handleTrue}
                 />
               }
             />
           </Route>
-          <Route path='fight' element={<FightLayout
-          setPlayerBoardOne={setPlayerBoardOne}
-          setPlayerBoardTwo={setPlayerBoardTwo}
-            changeplayer={changeplayer}
-            playerBoardOne={playerBoardOne}
-            playerBoardTwo={playerBoardTwo}
-            shipPlayerOne={shipPlayerOne}
-            shipPlayerTwo={shipPlayerTwo}
-            handleChange={handleChange}
-            handleCellClickTwo={handleCellClick}
-            handleCellClick={handleCellClick}
-            handleSwitch={handleSwitch} />} />
+          <Route path='fight' element={<FightLayout />}>
+            <Route
+              index
+              element={
+                <FightBoardTwo
+                  onClick={(index) => handleCellClickTwo(index)}
+                  setPlayerBoardTwo={setPlayerBoardTwo}
+                  playerBoardTwo={playerBoardTwo}
+                  shipPlayerTwo={shipPlayerTwo}
+                />
+              }
+            />
+            <Route
+              path='one'
+              element={
+                <FightBoardOne
+                  onClick={(index) => handleCellClick(index)}
+                  setPlayerBoardOne={setPlayerBoardOne}
+                  playerBoardOne={playerBoardOne}
+                  shipPlayerOne={shipPlayerOne}
+                  shipPlayerTwo={shipPlayerTwo}
+                />
+              }
+            />
+          </Route>
           <Route path='winner' element={<Winner />} />
         </Routes>
       </div>
