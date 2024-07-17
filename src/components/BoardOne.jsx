@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+
 function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
   return (
     <div className='whole-chart'>
@@ -20,13 +21,13 @@ function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
               }}
               className='board-one'
             >
-              {shipPlayerTwo.length > 0 && cell.ship ? "S" : ""}{" "}
+              {shipPlayerTwo.length > 0 && cell.ship ? "⚓️" : ""}{" "}
             </div>
           );
         })}
       </div>
       <button>
-      {shipPlayerOne.length <= 0 ? <Link to={"/place/one"}>change Player</Link> :  <div >change Player</div> }
+      {shipPlayerOne.length <= 0 ? <Link className="hint-game " to={"/place/one"}>change Player</Link> :  <div   className="hint-game opacity-[.4]">change Player</div> }
         </button>
     </div>
   );

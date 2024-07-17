@@ -7,8 +7,8 @@ function FightBoardTwo({
   onClick,
   shipPlayerTwo,
 }) {
-  const [winner, setWinner] = useState(false);
   const [clicked, setClick] = useState(false);
+  const [ships, setShips] = useState([]);
 
   const navigate = useNavigate();
 
@@ -20,12 +20,11 @@ function FightBoardTwo({
       }
       navigate("/fight/one");
       setClick(false);
-    }, 1000);
+    }, 800);
   };
   useEffect(() => {
     const hitCount = playerBoardTwo.filter((cell) => cell.hit).length;
     if (hitCount === 14) {
-      setWinner(true);
       navigate("/winner");
     }
   }, [playerBoardTwo, navigate]);
@@ -45,10 +44,30 @@ function FightBoardTwo({
     });
     setClick(true);
   };
+  useEffect(() => {
+    const destroyerHits = playerBoardTwo.filter(
+      (c) => c.ship === "Destroyer" && c.hit
+    ).length;
+    const supportHits = playerBoardTwo.filter(
+      (c) => c.ship === "support" && c.hit
+    ).length;
+    const battleshipHits = playerBoardTwo.filter(
+      (c) => c.ship === "Battleship" && c.hit
+    ).length;
+    const carrierHits = playerBoardTwo.filter(
+      (c) => c.ship === "Carrier" && c.hit
+    ).length;
+    setShips({
+      destroyer: destroyerHits,
+      support: supportHits,
+      battleship: battleshipHits,
+      carrier: carrierHits,
+    });
+  }, [playerBoardTwo]);
 
   return (
     <div className='whole-chart'>
-      <h1>player 1</h1>
+      <h1 className="hint-game"> turn: player 1</h1>
       <div className='board_one-grid'>
         {playerBoardTwo.map((cell, index) => {
           return (
@@ -60,9 +79,7 @@ function FightBoardTwo({
                 handleAlert();
               }}
               disabled={clicked}
-              className={`board-one ${cell.hit ? "hit" : ""} ${
-                cell.miss ? "miss" : ""
-              }`}
+              className='board-one text-[10px] md:text-[12px] lg:text-[14px] '
             >
               {shipPlayerTwo.length > 0 && cell.ship ? "⛴️" : ""}
               {cell.hit ? "☄️ " : ""}
@@ -71,6 +88,18 @@ function FightBoardTwo({
           );
         })}
       </div>
+      <div className="flex gap-2">
+        <div className="flex flex-col">
+        {ships.support === 2 && <p>support destroyed</p> }
+        {ships.destroyer === 3 && <p>support destroyed</p> }
+        </div>
+        <div className="flex flex-col">
+
+      {ships.battleship=== 4 && <p>support destroyed</p> }
+      {ships.carrier === 5 && <p>support destroyed</p> }
+        </div>
+      </div>
+
     </div>
   );
 }

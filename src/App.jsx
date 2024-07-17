@@ -6,12 +6,11 @@ import { arrayOfObjects, arrayOfObjectsPlus } from "./jsFoldre/constant";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import PlaceLayout from "./components/PlaceLayout";
-
-import ship from "../public/ship.jpg";
 import Winner from "./components/Winner";
 import FightLayout from "./components/FightLayout";
 import FightBoardTwo from "./components/FightBoardTwo";
 import FightBoardOne from "./components/FightBoardOne";
+import shipBoard from '../public/shipBoard.jpg';
 
 const SHIPS = [
   { size: 2, name: "support" },
@@ -133,12 +132,13 @@ function App() {
   };
 
   return (
-    <div className='app-class'>
-      <div>
-        <h1 className='banner-style'>Sea Battle</h1>
-        <img src={ship} alt='ship' className='ship-picture' />
+    <div className=' flex flex-col w-full gap-y-2 items-center justify-center  p-[30px]'>
+      <div className='flex items-center justify-center w-full'>
+        <h1 className='font-semibold text-[38px] text-white  w-fit font-newFont border-2 shadow-box p-[12px] rounded-lg border-white'>
+          Sea Battle
+        </h1>
       </div>
-      <div className='board-game'>
+      <div>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route
@@ -200,6 +200,7 @@ function App() {
           <Route path='winner' element={<Winner />} />
         </Routes>
       </div>
+      <img src={shipBoard} alt='ship' className='ship-picture' />
     </div>
   );
 }
