@@ -12,15 +12,23 @@ function FightBoardTwo({
 
   const navigate = useNavigate();
 
-  const handleAlert = () => {
-    setTimeout(() => {
+  const handleAlert = (cell) => {
+    if (!cell.clicked) {
       const hitCount = playerBoardTwo.filter((cell) => cell.hit).length;
-      if (hitCount < 14) {
-        alert("player1:are you ready?");
+      if (hitCount >= 14) {
+        return;
+      } else if (hitCount < 14) {
+        setTimeout(() => {
+          alert("player1:are you ready?");
+          navigate("/fight/one");
+          
+        }, 800);
       }
-      navigate("/fight/one");
+    } else {
       setClick(false);
-    }, 800);
+      return;
+      
+    }
   };
   useEffect(() => {
     const hitCount = playerBoardTwo.filter((cell) => cell.hit).length;
@@ -67,7 +75,7 @@ function FightBoardTwo({
 
   return (
     <div className='whole-chart'>
-      <h1 className="hint-game"> turn: player 1</h1>
+      <h1 className='hint-game'> turn: player 1</h1>
       <div className='board_one-grid'>
         {playerBoardTwo.map((cell, index) => {
           return (
@@ -76,7 +84,7 @@ function FightBoardTwo({
               onClick={() => {
                 onClick(index);
                 handleShot(cell);
-                handleAlert();
+                handleAlert(cell);
               }}
               disabled={clicked}
               className='board-one text-[10px] md:text-[12px] lg:text-[14px] '
@@ -88,18 +96,16 @@ function FightBoardTwo({
           );
         })}
       </div>
-      <div className="flex gap-2">
-        <div className="flex flex-col">
-        {ships.support === 2 && <p>support destroyed</p> }
-        {ships.destroyer === 3 && <p>support destroyed</p> }
+      <div className='flex gap-2'>
+        <div className='flex flex-col'>
+          {ships.support === 2 && <p>support destroyed</p>}
+          {ships.destroyer === 3 && <p>support destroyed</p>}
         </div>
-        <div className="flex flex-col">
-
-      {ships.battleship=== 4 && <p>support destroyed</p> }
-      {ships.carrier === 5 && <p>support destroyed</p> }
+        <div className='flex flex-col'>
+          {ships.battleship === 4 && <p>support destroyed</p>}
+          {ships.carrier === 5 && <p>support destroyed</p>}
         </div>
       </div>
-
     </div>
   );
 }

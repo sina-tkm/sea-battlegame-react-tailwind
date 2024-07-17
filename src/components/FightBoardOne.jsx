@@ -12,15 +12,22 @@ function FightBoardOne({
 
   const navigation = useNavigate();
 
-  const handleNavigate = () => {
-    setTimeout(() => {
+  const handleNavigate = (cell) => {
+    if (!cell.clicked) {
       const hitCount = playerBoardOne.filter((cell) => cell.hit).length;
-      if (hitCount < 14) {
-        alert("are you ready?");
+      if (hitCount >= 14) {
+        return;
+      } else if (hitCount < 14) {
+        setTimeout(() => {
+          alert("are you ready?");
+          navigation(-1);
+          
+        }, 800);
       }
-      navigation(-1);
+    } else {
       setClick(false);
-    }, 800);
+      return;
+    }
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function FightBoardOne({
 
   return (
     <div className='whole-chart'>
-      <h1 className="hint-game"> turn: Player 2</h1>
+      <h1 className='hint-game'> turn: Player 2</h1>
       <div className='board_one-grid'>
         {playerBoardOne.map((cell, index) => (
           <button
@@ -76,7 +83,7 @@ function FightBoardOne({
             onClick={() => {
               onClick(index);
               handleShot(cell);
-              handleNavigate();
+              handleNavigate(cell);
             }}
             disabled={clicked}
             className='board-one text-[10px] md:text-[12px] lg:text-[14px]'
@@ -87,15 +94,14 @@ function FightBoardOne({
           </button>
         ))}
       </div>
-      <div className="flex gap-x-2">
-        <div className="flex flex-col">
-        {ships.support === 2 && <p>support destroyed</p> }
-        {ships.destroyer === 3 && <p>destroyer destroyed</p> }
+      <div className='flex gap-x-2'>
+        <div className='flex flex-col'>
+          {ships.support === 2 && <p>support destroyed</p>}
+          {ships.destroyer === 3 && <p>destroyer destroyed</p>}
         </div>
-        <div className="flex flex-col">
-
-      {ships.battleship=== 4 && <p>battleShip destroyed</p> }
-      {ships.carrier === 5 && <p>carrier destroyed</p> }
+        <div className='flex flex-col'>
+          {ships.battleship === 4 && <p>battleShip destroyed</p>}
+          {ships.carrier === 5 && <p>carrier destroyed</p>}
         </div>
       </div>
     </div>
