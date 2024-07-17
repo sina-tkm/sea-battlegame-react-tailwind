@@ -134,7 +134,7 @@ function App() {
   return (
     <div className=' flex flex-col w-full gap-y-2 items-center justify-center  p-[30px]'>
       <div className='flex items-center justify-center w-full'>
-        <h1 className='font-semibold text-[38px] text-white  w-fit font-newFont border-2 shadow-box p-[12px] rounded-lg border-white'>
+        <h1 className='font-semibold text-[24px] lg:text-[38px] text-white  w-fit font-newFont border-2 shadow-box p-[12px] rounded-lg border-white'>
           Sea Battle
         </h1>
       </div>
