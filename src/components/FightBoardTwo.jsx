@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useGameProvider } from "./contexts/AppProvider";
 
 function FightBoardTwo() {
-  const {
-    setPlayerBoardTwo,
-    playerBoardTwo,
-    shipPlayerTwo,
-    
-  } = useGameProvider();
-  const [clicked, setClick] = useState(false);
+  const { handleShot, playerBoardTwo, shipPlayerTwo } = useGameProvider();
   const [ships, setShips] = useState([]);
 
   const navigate = useNavigate();
@@ -23,10 +17,9 @@ function FightBoardTwo() {
         setTimeout(() => {
           alert("player1:are you ready?");
           navigate("/fight/one");
-        }, 800);
+        }, 300);
       }
     } else {
-      setClick(false);
       return;
     }
   };
@@ -37,21 +30,6 @@ function FightBoardTwo() {
     }
   }, [playerBoardTwo, navigate]);
 
-  const handleShot = (cell) => {
-    setPlayerBoardTwo((prevShots) => {
-      return prevShots.map((c) => {
-        if (c.id === cell.id) {
-          if (cell.ship !== null) {
-            return { ...c, hit: true, clicked: true };
-          } else {
-            return { ...c, miss: true, clicked: true };
-          }
-        }
-        return c;
-      });
-    });
-    setClick(true);
-  };
   useEffect(() => {
     const destroyerHits = playerBoardTwo.filter(
       (c) => c.ship === "Destroyer" && c.hit
@@ -82,11 +60,9 @@ function FightBoardTwo() {
             <button
               key={index}
               onClick={() => {
-               
                 handleShot(cell);
                 handleAlert(cell);
               }}
-              disabled={clicked}
               className='board-one text-[10px] md:text-[12px] lg:text-[14px] '
             >
               {shipPlayerTwo.length > 0 && cell.ship ? "⛴️" : ""}

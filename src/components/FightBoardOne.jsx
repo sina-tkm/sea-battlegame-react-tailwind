@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useGameProvider } from "./contexts/AppProvider";
 
 function FightBoardOne() {
-  const { setPlayerBoardOne, shipPlayerTwo, playerBoardOne } =
-    useGameProvider();
-  const [clicked, setClick] = useState(false);
+  const { handleShotOne, shipPlayerTwo, playerBoardOne } = useGameProvider();
   const [ships, setShips] = useState([]);
 
   const navigation = useNavigate();
@@ -19,10 +17,9 @@ function FightBoardOne() {
         setTimeout(() => {
           alert("are you ready?");
           navigation(-1);
-        }, 800);
+        }, 300);
       }
     } else {
-      setClick(false);
       return;
     }
   };
@@ -34,21 +31,6 @@ function FightBoardOne() {
     }
   }, [playerBoardOne, navigation]);
 
-  const handleShot = (cell) => {
-    setPlayerBoardOne((prevShots) => {
-      return prevShots.map((c) => {
-        if (c.id === cell.id) {
-          if (cell.ship !== null) {
-            return { ...c, hit: true, clicked: true };
-          } else {
-            return { ...c, miss: true, clicked: true };
-          }
-        }
-        return c;
-      });
-    });
-    setClick(true);
-  };
   useEffect(() => {
     const destroyerHits = playerBoardOne.filter(
       (c) => c.ship === "Destroyer" && c.hit
@@ -78,11 +60,9 @@ function FightBoardOne() {
           <button
             key={index}
             onClick={() => {
-              
-              handleShot(cell);
+              handleShotOne(cell);
               handleNavigate(cell);
             }}
-            disabled={clicked}
             className='board-one text-[10px] md:text-[12px] lg:text-[14px]'
           >
             {shipPlayerTwo.length > 0 && cell.ship ? "S" : ""}{" "}

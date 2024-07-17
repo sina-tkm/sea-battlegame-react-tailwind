@@ -88,7 +88,7 @@ export const arrayOfObjects = [
   { id: 87 },
   { id: 88 },
   { id: 89 },
-  { id: 90, },
+  { id: 90 },
   { id: 91 },
   { id: 92 },
   { id: 93 },
@@ -98,7 +98,7 @@ export const arrayOfObjects = [
   { id: 97 },
   { id: 98 },
   { id: 99 },
-  { id: 100,},
+  { id: 100 },
 ];
 
 export const arrayOfObjectsPlus = [

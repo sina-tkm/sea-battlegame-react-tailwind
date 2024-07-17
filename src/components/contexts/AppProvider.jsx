@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { arrayOfObjects, arrayOfObjectsPlus } from "../../jsFoldre/constant";
 
 const AppContext = createContext();
@@ -9,16 +15,89 @@ const SHIPS = [
   { size: 4, name: "Battleship" },
   { size: 5, name: "Carrier" },
 ];
+
+const INITIAL = {
+  playerBoardOne: [],
+  playerBoardTwo: [],
+  shipPlayerOne: [...SHIPS],
+  shipPlayerTwo: [...SHIPS],
+};
+
+function reducerFunction(state, action) {
+  switch (action.type) {
+    case "add":
+      return {
+        ...state,
+        playerBoardOne: action.payload.payloadone,
+        playerBoardTwo: action.payload.payloadTwo,
+      };
+    case "slice":
+      return {
+        ...state,
+        shipPlayerOne: state.shipPlayerOne.slice(1),
+      };
+    case "newone":
+      return {
+        ...state,
+        playerBoardOne: action.payload,
+      };
+    case "slicetwo":
+      return {
+        ...state,
+        shipPlayerTwo: state.shipPlayerTwo.slice(1),
+      };
+    case "newtwo":
+      return {
+        ...state,
+        playerBoardTwo: action.payload,
+      };
+    case "handleshot_two":
+      return {
+        ...state,
+        playerBoardTwo: state.playerBoardTwo.map((c) => {
+          if (c.id === action.payload.id) {
+            if (c.ship !== null) {
+              return { ...c, hit: true, clicked: true };
+            } else {
+              return { ...c, miss: true, clicked: true };
+            }
+          }
+          return c;
+        }),
+      };
+    case "handleshot_One":
+      return {
+        ...state,
+        playerBoardOne: state.playerBoardOne.map((c) => {
+          if (c.id === action.payload.id) {
+            if (c.ship !== null) {
+              return { ...c, hit: true, clicked: true };
+            } else {
+              return { ...c, miss: true, clicked: true };
+            }
+          }
+          return c;
+        }),
+      };
+    default:
+      return state;
+  }
+}
+
 function AppProvider({ children }) {
-  const [playerBoardOne, setPlayerBoardOne] = useState([]);
-  const [playerBoardTwo, setPlayerBoardTwo] = useState([]);
-  const [shipPlayerOne, setShipPlayerOne] = useState([...SHIPS]);
-  const [shipPlayerTwo, setShipPlayerTwo] = useState([...SHIPS]);
   const [orientation, setOrientation] = useState("horizontal");
+  const [state, dispatch] = useReducer(reducerFunction, INITIAL);
+  const { playerBoardOne, playerBoardTwo, shipPlayerOne, shipPlayerTwo } =
+    state;
 
   useEffect(() => {
-    setPlayerBoardOne(initializeBoard([...arrayOfObjects]));
-    setPlayerBoardTwo(initializeBoard([...arrayOfObjectsPlus]));
+    dispatch({
+      type: "add",
+      payload: {
+        payloadone: initializeBoard([...arrayOfObjects]),
+        payloadTwo: initializeBoard([...arrayOfObjectsPlus]),
+      },
+    });
   }, []);
 
   const initializeBoard = (board) => {
@@ -45,8 +124,8 @@ function AppProvider({ children }) {
           orientation,
           shipOne.name
         );
-        setShipPlayerOne(shipPlayerOne.slice(1));
-        setPlayerBoardOne(newBoardOne);
+        dispatch({ type: "slice" });
+        dispatch({ type: "newone", payload: newBoardOne });
       }
     }
   };
@@ -66,8 +145,8 @@ function AppProvider({ children }) {
           orientation,
           shipTwo.name
         );
-        setShipPlayerTwo(shipPlayerTwo.slice(1));
-        setPlayerBoardTwo(newBoardTwo);
+        dispatch({ type: "slicetwo" });
+        dispatch({ type: "newtwo", payload: newBoardTwo });
       }
     }
   };
@@ -121,12 +200,20 @@ function AppProvider({ children }) {
     setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
   };
 
+  const handleShot = (cell) => {
+    dispatch({ type: "handleshot_two", payload: cell });
+  };
+
+  const handleShotOne = (cell) => {
+    dispatch({ type: "handleshot_One", payload: cell });
+  };
+
   return (
     <AppContext.Provider
       value={{
         toggleOrientation,
-        setPlayerBoardTwo,
-        setPlayerBoardOne,
+        handleShot,
+        handleShotOne,
         handleCellClick,
         handleCellClickTwo,
         playerBoardOne,
@@ -143,7 +230,6 @@ function AppProvider({ children }) {
 
 export default AppProvider;
 
-
-export function useGameProvider(){
-return useContext(AppContext)
+export function useGameProvider() {
+  return useContext(AppContext);
 }
