@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGameProvider } from "./contexts/AppProvider";
 
-function FightBoardOne({
-  setPlayerBoardOne,
-  onClick,
-  shipPlayerTwo,
-  playerBoardOne,
-}) {
+function FightBoardOne() {
+  const { setPlayerBoardOne, shipPlayerTwo, playerBoardOne } =
+    useGameProvider();
   const [clicked, setClick] = useState(false);
   const [ships, setShips] = useState([]);
 
@@ -21,7 +19,6 @@ function FightBoardOne({
         setTimeout(() => {
           alert("are you ready?");
           navigation(-1);
-          
         }, 800);
       }
     } else {
@@ -81,7 +78,7 @@ function FightBoardOne({
           <button
             key={index}
             onClick={() => {
-              onClick(index);
+              
               handleShot(cell);
               handleNavigate(cell);
             }}

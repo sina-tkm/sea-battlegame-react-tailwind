@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useGameProvider } from "./contexts/AppProvider";
 
-function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, hadnleTrue }) {
+function BoardTwo() {
+  const { playerBoardTwo, handleCellClickTwo, shipPlayerTwo } =
+    useGameProvider();
   return (
     <div className='whole-chart'>
       {shipPlayerTwo.length > 0 ? (
@@ -17,7 +20,7 @@ function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, hadnleTrue }) {
             <div
               key={index}
               onClick={() => {
-                onClick(index);
+                handleCellClickTwo(index);
               }}
               className='board-one'
             >
@@ -26,14 +29,19 @@ function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, hadnleTrue }) {
           );
         })}
       </div>
-      <button className="mt-4">
+      <button className='mt-4'>
         {shipPlayerTwo.length <= 0 ? (
-          <Link className="hint-game border rounded-md mt-2" to={"/fight"} onClick={hadnleTrue}>
+          <Link className='hint-game border rounded-md mt-2' to={"/fight"}>
             {" "}
             Lets go For fight
           </Link>
         ) : (
-          <div to={"/place"} className="hint-game opacity-[.4] border rounded-md mt-2 ">change Player</div>
+          <div
+            to={"/place"}
+            className='hint-game opacity-[.4] border rounded-md mt-2 '
+          >
+            change Player
+          </div>
         )}
       </button>
     </div>

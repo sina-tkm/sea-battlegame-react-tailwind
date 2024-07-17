@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useGameProvider } from "./contexts/AppProvider";
 
+function Board() {
+  const { handleCellClick, playerBoardOne, shipPlayerTwo, shipPlayerOne } =
+    useGameProvider();
 
-function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
   return (
     <div className='whole-chart'>
       {shipPlayerTwo.length > 0 ? (
@@ -13,11 +16,9 @@ function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
         {playerBoardOne.map((cell, index) => {
           return (
             <div
-          
               key={index}
               onClick={() => {
-                onClick(index);
-                
+                handleCellClick(index);
               }}
               className='board-one'
             >
@@ -26,9 +27,17 @@ function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
           );
         })}
       </div>
-      <button className="mt-4">
-      {shipPlayerOne.length <= 0 ? <Link className="hint-game border rounded-md mt-2 " to={"/place/one"}>change Player</Link> :  <div   className="hint-game opacity-[.4] border rounded-md mt-2 ">change Player</div> }
-        </button>
+      <button className='mt-4'>
+        {shipPlayerOne.length <= 0 ? (
+          <Link className='hint-game border rounded-md mt-2 ' to={"/place/one"}>
+            change Player
+          </Link>
+        ) : (
+          <div className='hint-game opacity-[.4] border rounded-md mt-2 '>
+            change Player
+          </div>
+        )}
+      </button>
     </div>
   );
 }
