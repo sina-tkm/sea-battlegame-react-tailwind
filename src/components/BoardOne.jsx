@@ -26,8 +26,8 @@ function Board({ playerBoardOne, onClick, shipPlayerTwo,shipPlayerOne }) {
           );
         })}
       </div>
-      <button>
-      {shipPlayerOne.length <= 0 ? <Link className="hint-game " to={"/place/one"}>change Player</Link> :  <div   className="hint-game opacity-[.4]">change Player</div> }
+      <button className="mt-4">
+      {shipPlayerOne.length <= 0 ? <Link className="hint-game border rounded-md mt-2 " to={"/place/one"}>change Player</Link> :  <div   className="hint-game opacity-[.4] border rounded-md mt-2 ">change Player</div> }
         </button>
     </div>
   );

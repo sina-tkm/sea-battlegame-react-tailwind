@@ -26,14 +26,14 @@ function BoardTwo({ playerBoardTwo, onClick, shipPlayerTwo, hadnleTrue }) {
           );
         })}
       </div>
-      <button>
+      <button className="mt-4">
         {shipPlayerTwo.length <= 0 ? (
-          <Link className="hint-game" to={"/fight"} onClick={hadnleTrue}>
+          <Link className="hint-game border rounded-md mt-2" to={"/fight"} onClick={hadnleTrue}>
             {" "}
             Lets go For fight
           </Link>
         ) : (
-          <div to={"/place"} className="hint-game opacity-[.4]">change Player</div>
+          <div to={"/place"} className="hint-game opacity-[.4] border rounded-md mt-2 ">change Player</div>
         )}
       </button>
     </div>
