@@ -2,13 +2,10 @@ import { Outlet } from "react-router-dom";
 import { ArrowUpIcon } from "@heroicons/react/16/solid";
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 import { useGameProvider } from "./contexts/AppProvider";
-import { useEffect } from "react";
 
 function PlaceLayout() {
-  const {toggleOrientation,orientation} = useGameProvider()
-  useEffect(()=>{
-    toggleOrientation()
-  },[])
+  const { toggleOrientation, orientation } = useGameProvider();
+ 
   return (
     <div>
       <Outlet />
@@ -18,10 +15,10 @@ function PlaceLayout() {
       >
         <button className='flex '>
           Toggle Orientation ({orientation}){" "}
-          {orientation === "vertical" ? (
-            <ArrowUpIcon className='w-[20px] h-[20px]' />
-          ) : (
+          {orientation === "horizontal" ? (
             <ArrowRightIcon className='w-[20px] h-[20px]' />
+          ) : (
+            <ArrowUpIcon className='w-[20px] h-[20px]' />
           )}
         </button>
       </div>

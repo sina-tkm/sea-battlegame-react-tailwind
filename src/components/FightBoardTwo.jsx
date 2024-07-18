@@ -11,11 +11,11 @@ function FightBoardTwo() {
   const handleAlert = (cell) => {
     if (!cell.clicked) {
       const hitCount = playerBoardTwo.filter((cell) => cell.hit).length;
-      if (hitCount >= 14) {
+      if (hitCount === 14) {
         return;
       } else if (hitCount < 14) {
         setTimeout(() => {
-          alert("player1:are you ready?");
+          alert("player1 :are you ready?");
           navigate("/fight/one");
         }, 300);
       }
@@ -74,12 +74,28 @@ function FightBoardTwo() {
       </div>
       <div className='flex gap-2'>
         <div className='flex flex-col'>
-          {ships.support === 2 && <p>support destroyed</p>}
-          {ships.destroyer === 3 && <p>support destroyed</p>}
+          {ships.support === 2 ? (
+            <p>support destroyed</p>
+          ) : (
+            <p className='opacity-[.3]'>support destroyed</p>
+          )}
+          {ships.destroyer === 3 ? (
+            <p>Destroyer destroyed</p>
+          ) : (
+            <p className='opacity-[.3]'>Destroyer destroyed</p>
+          )}
         </div>
         <div className='flex flex-col'>
-          {ships.battleship === 4 && <p>support destroyed</p>}
-          {ships.carrier === 5 && <p>support destroyed</p>}
+          {ships.battleship === 4 ? (
+            <p>battleship destroyed</p>
+          ) : (
+            <p className='opacity-[.3]'> battleship destroyed</p>
+          )}
+          {ships.carrier === 5 ? (
+            <p> carrier destroyed</p>
+          ) : (
+            <p className='opacity-[.3]'> carrier destroyed</p>
+          )}
         </div>
       </div>
     </div>
