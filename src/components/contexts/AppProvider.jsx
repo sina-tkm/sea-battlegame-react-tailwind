@@ -122,6 +122,7 @@ function AppProvider({ children }) {
         startId: cellOne.id,
         orientation,
       };
+
       if (canPlaceShip(canPlaceParams)) {
         placeShip(
           newBoardOne,
@@ -169,37 +170,38 @@ function AppProvider({ children }) {
       console.error("Expected board to be an array");
       return false;
     }
-
+  
     const startIdx = board.findIndex((cell) => cell.id === startId);
     const rowSize = Math.sqrt(board.length);
-
+  
     if (orientation === "horizontal") {
       if ((startIdx % rowSize) + shipSize > rowSize) {
         return false;
       }
-
+  
       for (let i = 0; i < shipSize; i++) {
         const cell = board[startIdx + i];
-        if (cell.ship !== null) {
+        if (!cell || cell.ship !== null) {
           return false;
         }
       }
     } else if (orientation === "vertical") {
-      if (startIdx + shipSize * rowSize > board.length) {
+     
+      if (startIdx + (shipSize - 1) * rowSize >= board.length) {
         return false;
       }
-
+  
       for (let i = 0; i < shipSize; i++) {
         const cell = board[startIdx + i * rowSize];
-        if (cell.ship !== null) {
+        if (!cell || cell.ship !== null) {
           return false;
         }
       }
     }
-
+  
     return true;
   };
-
+  
   const placeShip = (board, shipSize, startId, orientation, shipName) => {
     const startIdx = board.findIndex((cell) => cell.id === startId);
     const rowSize = Math.sqrt(board.length);
