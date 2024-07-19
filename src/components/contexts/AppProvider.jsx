@@ -116,7 +116,13 @@ function AppProvider({ children }) {
 
     if (shipPlayerOne.length > 0) {
       const shipOne = shipPlayerOne[0];
-      if (canPlaceShip(newBoardOne, shipOne.size, cellOne.id, orientation)) {
+      const canPlaceParams = {
+        board: newBoardOne,
+        shipSize: shipOne.size,
+        startId: cellOne.id,
+        orientation,
+      };
+      if (canPlaceShip(canPlaceParams)) {
         placeShip(
           newBoardOne,
           shipOne.size,
@@ -137,7 +143,14 @@ function AppProvider({ children }) {
     if (shipPlayerTwo.length > 0) {
       const shipTwo = shipPlayerTwo[0];
 
-      if (canPlaceShip(newBoardTwo, shipTwo.size, cellTwo.id, orientation)) {
+      const canPlaceParams = {
+        board: newBoardTwo,
+        shipSize: shipTwo.size,
+        startId: cellTwo.id,
+        orientation,
+      };
+
+      if (canPlaceShip(canPlaceParams)) {
         placeShip(
           newBoardTwo,
           shipTwo.size,
@@ -151,7 +164,12 @@ function AppProvider({ children }) {
     }
   };
 
-  const canPlaceShip = (board, shipSize, startId, orientation) => {
+  const canPlaceShip = ({ board, shipSize, startId, orientation }) => {
+    if (!Array.isArray(board)) {
+      console.error("Expected board to be an array");
+      return false;
+    }
+
     const startIdx = board.findIndex((cell) => cell.id === startId);
     const rowSize = Math.sqrt(board.length);
 
