@@ -5,7 +5,7 @@ import {
   useReducer,
   useState,
 } from "react";
-import { arrayOfObjects, arrayOfObjectsPlus } from "../../jsFoldre/constant";
+import { arrayOfObjects, arrayOfObjectsPlus } from "../../constant.js/constant";
 
 const AppContext = createContext();
 

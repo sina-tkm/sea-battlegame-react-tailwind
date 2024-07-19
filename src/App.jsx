@@ -8,7 +8,6 @@ import Winner from "./components/Winner";
 import FightLayout from "./components/FightLayout";
 import FightBoardTwo from "./components/FightBoardTwo";
 import FightBoardOne from "./components/FightBoardOne";
-import shipBoard from "../public/shipBoard.jpg";
 
 function App() {
   return (
@@ -32,7 +31,7 @@ function App() {
           <Route path='winner' element={<Winner />} />
         </Routes>
       </div>
-      <img src={shipBoard} alt='ship' className='ship-picture' />
+      
     </div>
   );
 }

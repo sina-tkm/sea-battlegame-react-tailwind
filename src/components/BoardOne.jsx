@@ -8,9 +8,9 @@ function Board() {
   return (
     <div className='whole-chart'>
       {shipPlayerTwo.length > 0 ? (
-        <h1 className='hint-game'>player1:choose your shipPlacement</h1>
+        <h1 className='hint-game text-[20px]'>player1:choose your shipPlacement</h1>
       ) : (
-        <h1 className='hint-game'>player1</h1>
+        <h1 className='hint-game text-[16px]'>player1</h1>
       )}
       <div className='board_one-grid'>
         {playerBoardOne.map((cell, index) => {

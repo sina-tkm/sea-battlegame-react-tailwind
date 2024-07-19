@@ -7,10 +7,10 @@ function BoardTwo() {
   return (
     <div className='whole-chart'>
       {shipPlayerTwo.length > 0 ? (
-        <h1 className='hint-game'>player2:choose your shipPlacement</h1>
+        <h1 className='hint-game text-[20px]'>player2:choose your shipPlacement</h1>
       ) : (
         <div className='turn-player'>
-          <h1 className='hint-game'>player2</h1>
+          <h1 className='hint-game text-[16px]'>player2</h1>
         </div>
       )}
 
@@ -40,7 +40,7 @@ function BoardTwo() {
             to={"/place"}
             className='hint-game opacity-[.4] border rounded-md mt-2 '
           >
-            change Player
+           Lets go For Fight
           </div>
         )}
       </button>

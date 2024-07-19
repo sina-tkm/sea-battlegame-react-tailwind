@@ -15,7 +15,7 @@ function FightBoardOne() {
         return;
       } else if (hitCount < 14) {
         setTimeout(() => {
-          alert("player2: are you ready?");
+          alert("player1: are you ready?");
           navigation(-1);
         }, 300);
       }
