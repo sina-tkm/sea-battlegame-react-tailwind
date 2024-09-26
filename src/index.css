@@ -7,6 +7,9 @@
 @tailwind utilities;
 @layer utilities{
   
+  body{
+    background-color: #7790b5;
+  }
  .board-black{
    border-radius: 50%;
    display: flex ;
